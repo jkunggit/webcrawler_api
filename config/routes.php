@@ -1,5 +1,5 @@
 <?php
-use MyCrawler\Crawler;
+use MyCrawler\CurlMultiCrawler;
 //use Phalcon\Config;
 
 $app->get('/api/crawler', function() use ($app, $config){
@@ -15,12 +15,15 @@ $app->get('/api/crawler', function() use ($app, $config){
     echo json_encode(array("error"=>"Invalid url!"));  
   }
   else{
-    //$start = "https://agencyanalytics.com";
-    //$start = "https://stackoverflow.com";
 
-    $crawler = new Crawler(50, true);
+    $crawler = new CurlMultiCrawler(200, true);
     $crawler->init_crawl_link($url);
-    echo json_encode($crawler->getPageCrawlData());  
+    echo json_encode($crawler->getPageCrawlData());
+
+    // $crawler->dump($crawler->getPageCrawlData());
+
+    // output what is already saved for faster developement
+    //sleep(1);
     // echo file_get_contents( API_PATH . "/config/output.json");
   }
 });

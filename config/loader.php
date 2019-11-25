@@ -12,7 +12,7 @@ $loader->registerNamespaces(
 
 $loader->registerClasses(
   [
-    'MyCrawler\Crawler' => API_PATH .'/library/Crawler.php',
+    'MyCrawler\CurlMultiCrawler' => API_PATH .'/library/CurlMultiCrawler.php',
   ]
 );
 
