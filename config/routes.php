@@ -7,7 +7,13 @@ $app->get('/api/crawler', function() use ($app, $config){
   $url = $app->request->getQuery('url');
 
   // make sure the url is provided
-  if  ( $url_parsed = parse_url($url) ) {
+  $url_parsed = parse_url($url);
+  $max_curls = 10;
+
+  if($url_parsed){
+    if($url_parsed["host"] == "agencyanalytics.com"){
+      $max_curls = 200;
+    } 
     if ( !isset($url_parsed["scheme"]) )
       {
         $url = "http://{$url}";
@@ -23,8 +29,7 @@ $app->get('/api/crawler', function() use ($app, $config){
     header('Access-Control-Allow-Origin: '.$config['allowOriginUrls']);
     header('Content-Type: application/json');
 
-    $limit = $url === "https://agencyanalytics.com" ? 200 : 10;
-    $crawler = new CurlMultiCrawler($limit, true);
+    $crawler = new CurlMultiCrawler($max_curls, true);
     $crawler->init_crawl_link($url);
     echo json_encode($crawler->getPageCrawlData());
 
