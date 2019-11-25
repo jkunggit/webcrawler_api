@@ -107,9 +107,14 @@ class CurlMultiCrawler{
             echo "url: $link depth: $depth<BR>";
           
           $curl_handle = curl_init($link);
+          
           curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
-          curl_setopt($curl_handle, CURLOPT_USERAGENT, "JK webcrawler");        
+          curl_setopt($curl_handle, CURLOPT_USERAGENT, "JK webcrawler");  
+          curl_setopt($curl_handle, CURLOPT_POSTREDIR, CURL_REDIR_POST_ALL);  
+          curl_setopt($curl_handle, CURLOPT_FOLLOWLOCATION, 1);
+
           curl_multi_add_handle($curl_multi_handle, $curl_handle);
+          
           $curl_handler_array[$link] = $curl_handle;
           $this->page_curl_count++; 
         }
